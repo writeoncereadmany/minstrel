@@ -1,0 +1,1 @@
+java -jar ~/Library/Java/Extensions/antlr-4.1-complete.jar Minstrel.g4 -o src/com/writeoncereadmany/minstrel/generated -package com.writeoncereadmany.minstrel.generated
