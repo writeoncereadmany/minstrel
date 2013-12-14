@@ -229,49 +229,9 @@ public class FrameworkTest {
 	}
 	
 	@Test
-    @Ignore("Doesn't handle forward declarations: for this we'd need to walk the tree twice, one for declaration and a second for name binding")
-	public void supportsMutuallyRecursiveFunctions()
-	{
-		assertOutput("function prev1[Integer n] returns Integer " +
-				     "{" +
-				     "    if(n = 0) { return 0; }" +
-				     "    return 1 + prev2[n-1];" +
-				     "}" +
-				     "function prev2[Integer n] returns Integer " +
-				     "{" +
-				     "    if(n = 0) { return 0; }" +
-				     "    return 1 + prev1[n-1]; " +
-				     "}" +
-				     "print[prev1[10]];" +
-				     "print[prev2[10]];",
-				     "10", "10");
-	}
-	
-	@Test
 	public void supportsErrorStatements()
 	{
 		assertError("error[\"Error statement\"];", "Error statement");
-	}
-
-	@Test
-    @Ignore("Variability not yet implemented")
-	public void shouldBindNonVariableValuesToFunctionsWhenFunctionCreated()
-	{
-		assertOutput("Integer a is 5; " +
-				     "function boundA[] returns Integer { return a; } " +
-				     "a becomes 8;" +
-				     "print[boundA[]];", 
-				     "8");
-	}
-
-	@Test
-    @Ignore("Not currently intending to implement this")
-	public void cannotReferenceVariablesFromHigherScopes()
-	{
-		assertOutput("Integer a is 5; " +
-					 "function boundA[] returns Integer { return a; } " +
-					 "print[boundA[]];", 
-					 "5");
 	}
 	
 	@Test
