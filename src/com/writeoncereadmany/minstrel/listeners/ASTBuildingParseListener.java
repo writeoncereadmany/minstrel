@@ -6,9 +6,7 @@ import com.writeoncereadmany.minstrel.ast.*;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.*;
 import com.writeoncereadmany.minstrel.ast.operators.ComplexBinaryOperators;
 import com.writeoncereadmany.minstrel.ast.operators.SimpleBinaryOperators;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.DefinitionBuilder;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.FunctionDefinitionBuilder;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.SignatureBuilder;
+import com.writeoncereadmany.minstrel.ast.statements.definitions.*;
 import com.writeoncereadmany.minstrel.ast.expressions.*;
 import com.writeoncereadmany.minstrel.ast.statements.*;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser;
@@ -237,5 +235,20 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
     @Override
     public void enterMethod_call(@NotNull MinstrelParser.Method_callContext ctx) {
         beingBuilt.push(new MethodCallBuilder());
+    }
+
+    @Override
+    public void enterInterface_definition(@NotNull MinstrelParser.Interface_definitionContext ctx) {
+        beingBuilt.push(new InterfaceBuilder());
+    }
+
+    @Override
+    public void enterInterface_body(@NotNull MinstrelParser.Interface_bodyContext ctx) {
+        beingBuilt.push(new InterfaceBodyBuilder());
+    }
+
+    @Override
+    public void enterMethod_declaration(@NotNull MinstrelParser.Method_declarationContext ctx) {
+        beingBuilt.push(new MethodDeclarationBuilder(scopes));
     }
 }

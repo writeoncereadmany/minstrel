@@ -24,4 +24,7 @@ public class Signature implements Statement {
 		// no need to do anything quite yet!
 	}
 
+    public Name getName() {
+        return name;
+    }
 }

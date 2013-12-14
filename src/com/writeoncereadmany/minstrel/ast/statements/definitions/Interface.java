@@ -16,10 +16,10 @@ import java.util.Map;
 public class Interface implements Statement {
 
     private Name name;
-    private List<Name> extendedInterfaces = new ArrayList<Name>();
-    private Map<String, Signature> methodSignatures;
+    private List<Type> extendedInterfaces = new ArrayList<Type>();
+    private Map<Name, Signature> methodSignatures;
 
-    public Interface(Name name, List<Name> extendedInterfaces, Map<String, Signature> methodSignatures)
+    public Interface(Name name, List<Type> extendedInterfaces, Map<Name, Signature> methodSignatures)
     {
         this.name = name;
         this.methodSignatures = methodSignatures;

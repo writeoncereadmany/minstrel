@@ -15,4 +15,17 @@ public class Name implements ASTNode {
 	{
 		return name;
 	}
+
+    public boolean equals(Object o)
+    {
+        if(this==o) return true;
+        if(!(o instanceof Name)) return false;
+        Name otherName = (Name)o;
+        return name.equals(otherName.name);
+    }
+
+    public int hashCode()
+    {
+        return name.hashCode();
+    }
 }

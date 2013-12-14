@@ -291,6 +291,30 @@ public class FrameworkTest {
 				     "useBinder[binder[]];",
 				     "5");
 	}
+
+    @Test
+    public void canDefineInterfaces()
+    {
+        assertOutput("interface Bouncy \n" +
+                     "{ \n " +
+                     "   method bounce[] returns Unit; \n" +
+                     "   method drop[] returns Unit; \n" +
+                     "}");
+    }
+
+    @Test
+    public void canExtendInterfaces()
+    {
+        assertOutput("interface Bouncy \n" +
+                     "{ \n " +
+                     "   method bounce[] returns Unit; \n" +
+                     "}  \n" +
+                     "interface Shiny \n" +
+                     "{ \n" +
+                     "   method shine[] returns Unit;  \n" +
+                     "}  \n" +
+                     "interface LovelyHair extends Bouncy, Shiny {} ");
+    }
 	
 	@Test
 	public void stopExecutingBlockWhenReturnStatementHit()
