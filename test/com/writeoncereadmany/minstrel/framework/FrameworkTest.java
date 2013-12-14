@@ -3,7 +3,11 @@ package com.writeoncereadmany.minstrel.framework;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.writeoncereadmany.minstrel.runtime.Environment;
+import com.writeoncereadmany.minstrel.runtime.environment.SystemEnvironment;
+import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
+import com.writeoncereadmany.minstrel.runtime.environment.Environment;
+import com.writeoncereadmany.minstrel.runtime.values.functions.PrintFunction;
+import com.writeoncereadmany.minstrel.scope.Scope;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,9 +15,6 @@ import org.junit.Test;
 import com.writeoncereadmany.minstrel.generated.MinstrelBaseListener;
 import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
 import com.writeoncereadmany.minstrel.listeners.PrintingParseListener;
-import com.writeoncereadmany.minstrel.runtime.ExecutionContext;
-import com.writeoncereadmany.minstrel.runtime.DefaultSystemContext;
-import com.writeoncereadmany.minstrel.runtime.PrintFunction;
 import com.writeoncereadmany.minstrel.runtime.utility.Printer;
 
 public class FrameworkTest {
@@ -56,10 +57,35 @@ public class FrameworkTest {
 		assertOutput("print[2 + 4];", "6");
 		assertOutput("print[3 * 5];", "15");
 		assertOutput("print[9 - 3];", "6");
-		assertOutput("print[22 / 7];", "3");
-		assertOutput("print[27 / 7];", "3");
+		assertOutput("print[22 / 7];", "22 / 7");
+		assertOutput("print[21 / 9];", "7 / 3");
 	}
-	
+
+	@Test
+	public void canUseMethodNotationForAddition() {
+		assertOutput("print[2.plus[4]];", "6");
+	}
+
+	@Test
+	public void canUseMethodNotationForSubtraction() {
+		assertOutput("print[10.minus[4]];", "6");
+	}
+
+	@Test
+	public void canUseMethodNotationForMultiplication() {
+		assertOutput("print[2.multipliedBy[4]];", "8");
+	}
+
+	@Test
+	public void canUseMethodNotationForDivision() {
+		assertOutput("print[15.dividedBy[3]];", "5");
+	}
+
+	@Test
+	public void canUseMethodNotationForStringConcatenation() {
+		assertOutput("print[\"hello \".plus[\"world\"]];", "hello world");
+	}
+
 	@Test
 	public void shouldEvaluateSamePrecedenceOperatorsLeftToRight()
 	{
@@ -113,12 +139,12 @@ public class FrameworkTest {
 		assertOutput("print[42 =/= 4];", "true");
 		assertOutput("print[0 =/= 0];", "false");
 	}
-	
+
 	@Test
 	public void shouldSupportIfStatements()
 	{
 		assertOutput("Integer a is 5; if 2 + 2 = 5 { a becomes 7;} print[a];", "5");
-		assertOutput("Integer a is 5; if 2 + 2 =/= 5 { a becomes 7;} print[7];", "7");
+		assertOutput("Integer a is 5; if 2 + 2 =/= 5 { a becomes 7;} print[a];", "7");
 	}
 	
 	@Test
@@ -171,13 +197,13 @@ public class FrameworkTest {
 	@Test
 	public void canDeclareFunctionInterfaces()
 	{
-		assertOutput("function interface Foo[] returns Integer;");
+		assertOutput("signature Foo[] returns Integer;");
 	}
 	
 	@Test
 	public void canDeclareAnonymousFunctions()
 	{
-		assertOutput("function interface Foo[Integer x] returns Integer; " +
+		assertOutput("signature Foo[Integer x] returns Integer; " +
 				     "function makeAFoo[] returns Foo " +
 				     "{ " +
 				     "   return function[Integer x] returns Integer " +
@@ -203,6 +229,7 @@ public class FrameworkTest {
 	}
 	
 	@Test
+    @Ignore("Doesn't handle forward declarations: for this we'd need to walk the tree twice, one for declaration and a second for name binding")
 	public void supportsMutuallyRecursiveFunctions()
 	{
 		assertOutput("function prev1[Integer n] returns Integer " +
@@ -226,22 +253,23 @@ public class FrameworkTest {
 		assertError("error[\"Error statement\"];", "Error statement");
 	}
 
-	@Ignore("Needs defininition steps")
 	@Test
+    @Ignore("Variability not yet implemented")
 	public void shouldBindNonVariableValuesToFunctionsWhenFunctionCreated()
 	{
 		assertOutput("Integer a is 5; " +
 				     "function boundA[] returns Integer { return a; } " +
 				     "a becomes 8;" +
 				     "print[boundA[]];", 
-				     "5");
+				     "8");
 	}
-	
-	@Test(expected=MinstrelParseException.class)
+
+	@Test
+    @Ignore("Not currently intending to implement this")
 	public void cannotReferenceVariablesFromHigherScopes()
 	{
 		assertOutput("Integer a is 5; " +
-					 "IntegerGetter boundA[] returns Integer { return a; } " +
+					 "function boundA[] returns Integer { return a; } " +
 					 "print[boundA[]];", 
 					 "5");
 	}
@@ -249,7 +277,7 @@ public class FrameworkTest {
 	@Test
 	public void shouldAllowBoundVariablesToEscapeScope()
 	{
-		assertOutput("function interface Constant[] returns Integer;" +
+		assertOutput("signature Constant[] returns Integer;" +
 				     "function binder[] returns Constant" +
 				     "{" +
 				     "    Integer a is 5;" +
@@ -261,7 +289,7 @@ public class FrameworkTest {
 				     "   print[func[]];" +
 				     "}" +
 				     "useBinder[binder[]];",
-				     "8");
+				     "5");
 	}
 	
 	@Test
@@ -277,6 +305,21 @@ public class FrameworkTest {
 					 "print[\"three\"];",
 					 "one", "three");
 	}
+
+	@Test
+	public void stopExecutingProgramWhenErrorStatementHit()
+	{
+		assertError("function foo[] returns Unit " +
+                "{" +
+                "    print[\"one\"];" +
+                "    error[\"fail\"];" +
+                "    print[\"two\"]; " +
+                "}" +
+                "foo[];" +
+                "print[\"three\"];",
+                "fail",
+                "one");
+	}
 	
 	private void explain(String programSource)
 	{
@@ -285,24 +328,39 @@ public class FrameworkTest {
 		
 	private void assertOutput(String programSource, String... expectedOutputs)
 	{
-		Environment systemEnvironment = DefaultSystemContext.createDefaultSystemEnvironment();
-		systemEnvironment.updateVariable("print", new PrintFunction(capturingPrintStream));
-		underTest.execute(programSource, new ExecutionContext(systemEnvironment));
+        ExecutionContext context = new ExecutionContext();
+
+        Environment environment = SystemEnvironment.createSystemEnvironment();
+        Scope systemScope = SystemEnvironment.createSystemScope();
+        environment.reassignValue(systemScope.indexOf("print"), new PrintFunction(capturingPrintStream));
+
+        underTest.execute(programSource, context, environment);
 		
 		for(String expectedOutput: expectedOutputs)
 		{
 			Assert.assertEquals(expectedOutput, capturingPrintStream.next());
 		}
 		Assert.assertFalse(capturingPrintStream.hasNext());
+        Assert.assertFalse(context.hasError());
 	}
 	
 	
-	private void assertError(String programSource, String expectedError) {
-		ExecutionContext context = DefaultSystemContext.create();
-		underTest.execute(programSource, context);
+	private void assertError(String programSource, String expectedError, String... expectedOutputs) {
+        ExecutionContext context = new ExecutionContext();
+
+        Environment environment = SystemEnvironment.createSystemEnvironment();
+        Scope systemScope = SystemEnvironment.createSystemScope();
+        environment.reassignValue(systemScope.indexOf("print"), new PrintFunction(capturingPrintStream));
+
+        underTest.execute(programSource, context, environment);
 		
 		Assert.assertTrue(context.hasError());
 		Assert.assertEquals(expectedError, context.getError());
+        for(String expectedOutput: expectedOutputs)
+        {
+            Assert.assertEquals(expectedOutput, capturingPrintStream.next());
+        }
+        Assert.assertFalse(capturingPrintStream.hasNext());
 	}
 
 

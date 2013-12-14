@@ -1,12 +1,13 @@
 package com.writeoncereadmany.minstrel.ast;
 
+import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgramBuilder implements ASTNodeBuilder {
+public class ProgramBuilder implements ASTNodeBuilder<Program> {
 
 	private List<Statement> nodes = new ArrayList<Statement>();
 
@@ -21,7 +22,7 @@ public class ProgramBuilder implements ASTNodeBuilder {
 	}
 
 	@Override
-	public ASTNode build(Scopes scopes) {
+	public Program build(Scopes scopes) {
         scopes.exitScope();
         if(!scopes.isEmpty())
         {

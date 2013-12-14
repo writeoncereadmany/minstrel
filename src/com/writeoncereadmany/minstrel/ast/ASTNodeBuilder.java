@@ -2,9 +2,9 @@ package com.writeoncereadmany.minstrel.ast;
 
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
-public interface ASTNodeBuilder {
+public interface ASTNodeBuilder<T extends ASTNode> {
 
 	public void addNode(ASTNode node);
 	
-	public ASTNode build(Scopes scopes);
+	public T build(Scopes scopes);
 }

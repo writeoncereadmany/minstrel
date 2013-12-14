@@ -1,5 +1,8 @@
 package com.writeoncereadmany.minstrel.framework;
 
+import com.writeoncereadmany.minstrel.runtime.environment.Environment;
+import com.writeoncereadmany.minstrel.runtime.environment.Environments;
+import com.writeoncereadmany.minstrel.runtime.environment.SystemEnvironment;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -12,8 +15,7 @@ import com.writeoncereadmany.minstrel.generated.MinstrelListener;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser;
 import com.writeoncereadmany.minstrel.listeners.ASTBuildingParseListener;
 import com.writeoncereadmany.minstrel.listeners.ExceptionThrowingErrorListener;
-import com.writeoncereadmany.minstrel.runtime.ExecutionContext;
-import com.writeoncereadmany.minstrel.runtime.DefaultSystemContext;
+import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 
 public class Framework 
 {
@@ -31,19 +33,20 @@ public class Framework
 	
 	public Program getProgram(final String programText)
 	{
-		final ASTBuildingParseListener builder = new ASTBuildingParseListener(DefaultSystemContext.createDefaultSystemScope());
+		final ASTBuildingParseListener builder = new ASTBuildingParseListener(SystemEnvironment.createSystemScope());
 		parse(programText, builder);
 		return builder.getProgram();
 	}
 	
 	public void execute(final String programText)
 	{
-		ExecutionContext defaultContext = DefaultSystemContext.create();
-		execute(programText, defaultContext);
+        ExecutionContext defaultContext = new ExecutionContext();
+
+		execute(programText, defaultContext, SystemEnvironment.createSystemEnvironment());
 	}
 	
-	public void execute(final String programText, final ExecutionContext customContext)
+	public void execute(final String programText, final ExecutionContext customContext, final Environment systemEnvironment)
 	{
-		getProgram(programText).execute(customContext);
+		getProgram(programText).execute(customContext, Environments.fromSystemEnvironment(systemEnvironment));
 	}
 }

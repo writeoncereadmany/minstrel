@@ -7,7 +7,14 @@ import java.util.Stack;
  */
 public class Scopes {
 
+    public static final int NOT_PRESENT = Integer.MIN_VALUE;
     private final Stack<Scope> scopes = new Stack<Scope>();
+    private final Scope systemScope;
+
+    public Scopes(Scope systemScope)
+    {
+        this.systemScope = systemScope;
+    }
 
     public void enterScope()
     {
@@ -21,6 +28,10 @@ public class Scopes {
 
     public Scope peekAtDepth(int depth)
     {
+        if(depth == -1)
+        {
+            return systemScope;
+        }
         return scopes.get(lastIndex() - depth);
     }
 
@@ -36,7 +47,7 @@ public class Scopes {
 
     public boolean contains(String name)
     {
-        return getDepth(name) >= 0;
+        return getDepth(name) >= -1;
     }
 
     public int getDepth(String name)
@@ -48,7 +59,11 @@ public class Scopes {
                 return lastIndex() - i;
             }
         }
-        return -1;
+        if(systemScope.contains(name))
+        {
+            return -1;
+        }
+        return NOT_PRESENT;
     }
 
     public DeBruijnIndex getDeBruijnIndex(String name) {

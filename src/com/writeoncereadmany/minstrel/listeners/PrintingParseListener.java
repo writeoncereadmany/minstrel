@@ -122,16 +122,6 @@ public class PrintingParseListener implements MinstrelListener {
 	}
 
 	@Override
-	public void enterFloat_literal(@NotNull Float_literalContext ctx) {
-		System.out.println("Entering a float literal");
-	}
-
-	@Override
-	public void exitFloat_literal(@NotNull Float_literalContext ctx) {
-		System.out.println("Exiting a float literal");
-	}
-
-	@Override
 	public void enterFunction_call(@NotNull Function_callContext ctx) {
 		System.out.println("Entering a function call");
 	}
@@ -172,12 +162,12 @@ public class PrintingParseListener implements MinstrelListener {
 	}
 
 	@Override
-	public void enterInteger_literal(@NotNull Integer_literalContext ctx) {
+	public void enterNumber_literal(@NotNull Number_literalContext ctx) {
 		System.out.println("Entering an integer literal");
 	}
 
 	@Override
-	public void exitInteger_literal(@NotNull Integer_literalContext ctx) {
+	public void exitNumber_literal(@NotNull Number_literalContext ctx) {
 		System.out.println("Exiting an integer literal");
 	}
 
@@ -204,14 +194,14 @@ public class PrintingParseListener implements MinstrelListener {
 	}
 
 	@Override
-	public void enterFunction_interface_definition(
-			@NotNull Function_interface_definitionContext ctx) {
+	public void enterSignature_definition(
+			@NotNull Signature_definitionContext ctx) {
 		System.out.println("Entering a function interface definition");
 	}
 
 	@Override
-	public void exitFunction_interface_definition(
-			@NotNull Function_interface_definitionContext ctx) {
+	public void exitSignature_definition(
+			@NotNull Signature_definitionContext ctx) {
 		System.out.println("Exiting a function interface definition");
 	}
 

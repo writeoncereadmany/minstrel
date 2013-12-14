@@ -8,8 +8,7 @@ fragment LETTER: [a-zA-Z];
 fragment DIGIT: [0-9];
 SPACE: [ \t\r\n]+ -> skip;
 
-INTEGER_LITERAL: DIGIT+;
-FLOAT_LITERAL: DIGIT+'.'DIGIT+;
+NUMBER_LITERAL: DIGIT+('.'DIGIT+)?;
 STRING_LITERAL: '"' ~["]* '"';
 
 // Keywords
@@ -23,6 +22,7 @@ CONSTRUCT: 'construct';
 METHOD: 'method';
 RETURNS: 'returns';
 INTERFACE: 'interface';
+SIGNATURE: 'signature';
 EXTENDS: 'extends';
 FUNCTION: 'function';
 ENUM: 'enum';
@@ -63,7 +63,7 @@ modifier: name;
 class_definition: CLASS name generic_argument_list? IMPLEMENTS type '{' class_body '}';
 class_body: (field_definition | constructor_definition | method_definition)*;
 field_definition: type name';';
-constructor_definition: CONSTRUCT parameter_list block;
+constructor_definition: CONSTRUCT parameter_list (block | ';');
 method_definition: METHOD name parameter_list RETURNS type block;
 
 parameter_list: '[' (parameter (',' parameter)*)? ']';
@@ -77,7 +77,7 @@ interface_definition: INTERFACE name generic_argument_list? (EXTENDS type (',' t
 interface_body: method_declaration*;
 method_declaration: METHOD name parameter_list RETURNS type ';';
 
-function_interface_definition: FUNCTION INTERFACE name generic_argument_list? parameter_list RETURNS type ';';
+signature_definition: SIGNATURE name generic_argument_list? parameter_list RETURNS type ';';
 
 function_definition: FUNCTION generic_argument_list? name parameter_list RETURNS type block;
 
@@ -98,11 +98,10 @@ statement: expression ';'                                                  # exp
          | definition                                                      # definition_statement
          ;
 
-definition: class_definition | interface_definition | function_definition | function_interface_definition | enum_definition;
+definition: class_definition | interface_definition | function_definition | signature_definition | enum_definition;
 
 expression: '(' expression ')'                                                  # parenthesised_expression
-          | INTEGER_LITERAL                                                     # integer_literal
-          | FLOAT_LITERAL                                                       # float_literal
+          | NUMBER_LITERAL                                                      # number_literal
           | STRING_LITERAL                                                      # string_literal
           | IDENTIFIER	                                                        # variable
           | FUNCTION generic_argument_list? parameter_list RETURNS type block   # anonymous_function_definition

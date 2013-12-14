@@ -1,42 +1,23 @@
 package com.writeoncereadmany.minstrel.listeners;
 
-import java.math.BigInteger;
 import java.util.Stack;
 
+import com.writeoncereadmany.minstrel.ast.*;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.*;
+import com.writeoncereadmany.minstrel.ast.operators.ComplexBinaryOperators;
+import com.writeoncereadmany.minstrel.ast.operators.SimpleBinaryOperators;
+import com.writeoncereadmany.minstrel.ast.statements.definitions.DefinitionBuilder;
+import com.writeoncereadmany.minstrel.ast.statements.definitions.FunctionDefinitionBuilder;
+import com.writeoncereadmany.minstrel.ast.statements.definitions.SignatureBuilder;
+import com.writeoncereadmany.minstrel.ast.expressions.*;
+import com.writeoncereadmany.minstrel.ast.statements.*;
+import com.writeoncereadmany.minstrel.generated.MinstrelParser;
 import com.writeoncereadmany.minstrel.scope.Scope;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import com.writeoncereadmany.minstrel.ast.ASTNode;
-import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
-import com.writeoncereadmany.minstrel.ast.AnonymousFunctionBuilder;
-import com.writeoncereadmany.minstrel.ast.ArgumentListBuilder;
-import com.writeoncereadmany.minstrel.ast.BlockBuilder;
-import com.writeoncereadmany.minstrel.ast.DeclarationBuilder;
-import com.writeoncereadmany.minstrel.ast.DefinitionBuilder;
-import com.writeoncereadmany.minstrel.ast.ErrorStatementBuilder;
-import com.writeoncereadmany.minstrel.ast.ExpressionStatementBuilder;
-import com.writeoncereadmany.minstrel.ast.FunctionCallBuilder;
-import com.writeoncereadmany.minstrel.ast.FunctionDefinitionBuilder;
-import com.writeoncereadmany.minstrel.ast.FunctionInterfaceBuilder;
-import com.writeoncereadmany.minstrel.ast.IfStatementBuilder;
-import com.writeoncereadmany.minstrel.ast.IntegerLiteralBuilder;
-import com.writeoncereadmany.minstrel.ast.NameBuilder;
-import com.writeoncereadmany.minstrel.ast.OperationBuilder;
-import com.writeoncereadmany.minstrel.ast.Operators;
-import com.writeoncereadmany.minstrel.ast.ParameterBuilder;
-import com.writeoncereadmany.minstrel.ast.ParameterListBuilder;
-import com.writeoncereadmany.minstrel.ast.ParenthesisedExpressionBuilder;
-import com.writeoncereadmany.minstrel.ast.Program;
-import com.writeoncereadmany.minstrel.ast.ProgramBuilder;
-import com.writeoncereadmany.minstrel.ast.ReassignmentStatementBuilder;
-import com.writeoncereadmany.minstrel.ast.ReturnStatementBuilder;
-import com.writeoncereadmany.minstrel.ast.StringLiteralBuilder;
-import com.writeoncereadmany.minstrel.ast.TypeBuilder;
-import com.writeoncereadmany.minstrel.ast.VariableBuilder;
-import com.writeoncereadmany.minstrel.ast.WhileStatementBuilder;
 import com.writeoncereadmany.minstrel.generated.MinstrelBaseListener;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.Anonymous_function_definitionContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.Argument_listContext;
@@ -50,10 +31,9 @@ import com.writeoncereadmany.minstrel.generated.MinstrelParser.Expression_statem
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.Factor_expressionContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.Function_callContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.Function_definitionContext;
-import com.writeoncereadmany.minstrel.generated.MinstrelParser.Function_interface_definitionContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.If_statementContext;
-import com.writeoncereadmany.minstrel.generated.MinstrelParser.Integer_literalContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.NameContext;
+import com.writeoncereadmany.minstrel.generated.MinstrelParser.Number_literalContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.ParameterContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.Parameter_listContext;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.Parenthesised_expressionContext;
@@ -69,15 +49,13 @@ import com.writeoncereadmany.minstrel.generated.MinstrelParser.While_statementCo
 public class ASTBuildingParseListener extends MinstrelBaseListener {
 
 	private Stack<ASTNodeBuilder> beingBuilt;
-    private Scope systemScope;
-    private Scopes programScopes;
+    private Scopes scopes;
 	private Program program = null;
 	
 	public ASTBuildingParseListener(final Scope systemScope)
 	{
 		beingBuilt = new Stack<ASTNodeBuilder>();
-        programScopes = new Scopes();
-        this.systemScope = systemScope;
+        scopes = new Scopes(systemScope);
 	}
 	
 	public Program getProgram()
@@ -92,7 +70,7 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 	@Override
 	public void exitEveryRule(@NotNull ParserRuleContext ctx) {
 		final ASTNodeBuilder finishedBuilding = beingBuilt.pop();
-		final ASTNode node = finishedBuilding.build(programScopes);
+		final ASTNode node = finishedBuilding.build(scopes);
 		
 		if(beingBuilt.isEmpty()) 
 		{
@@ -108,15 +86,19 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 	@Override
 	public void visitTerminal(@NotNull TerminalNode node) {
         String terminal = node.getText();
-        if(Operators.isOperator(terminal))
+        if(SimpleBinaryOperators.isOperator(terminal))
         {
-            beingBuilt.peek().addNode(Operators.forSymbol(terminal));
+            beingBuilt.peek().addNode(SimpleBinaryOperators.forSymbol(terminal));
+        }
+        else if(ComplexBinaryOperators.isOperator(terminal))
+        {
+            beingBuilt.peek().addNode(ComplexBinaryOperators.forSymbol(terminal));
         }
 	}
 	
 	@Override
 	public void enterProgram(@NotNull ProgramContext ctx) {
-		beingBuilt.push(new ProgramBuilder(programScopes));
+		beingBuilt.push(new ProgramBuilder(scopes));
 	}
 	
 	@Override
@@ -170,8 +152,8 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 	}
 	
 	@Override
-	public void enterInteger_literal(@NotNull Integer_literalContext ctx) {
-		beingBuilt.push(new IntegerLiteralBuilder(new BigInteger(ctx.getText())));
+	public void enterNumber_literal(@NotNull Number_literalContext ctx) {
+		beingBuilt.push(new NumberLiteralBuilder(ctx.getText()));
 	}
 	
 	@Override
@@ -198,18 +180,18 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 	
 	@Override
 	public void enterIf_statement(@NotNull If_statementContext ctx) {
-		beingBuilt.push(new IfStatementBuilder(programScopes));
+		beingBuilt.push(new IfStatementBuilder(scopes));
 	}
 
     @Override
 	public void enterWhile_statement(@NotNull While_statementContext ctx) {
-		beingBuilt.push(new WhileStatementBuilder(programScopes));
+		beingBuilt.push(new WhileStatementBuilder(scopes));
 	}
 
 
     @Override
 	public void enterFunction_definition(@NotNull Function_definitionContext ctx) {
-		beingBuilt.push(new FunctionDefinitionBuilder(programScopes));
+		beingBuilt.push(new FunctionDefinitionBuilder(scopes));
 	}
 
     @Override
@@ -239,16 +221,21 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 	
 	@Override
 	public void enterAnonymous_function_definition(@NotNull Anonymous_function_definitionContext ctx) {
-		beingBuilt.push(new AnonymousFunctionBuilder(programScopes));
+		beingBuilt.push(new AnonymousFunctionBuilder(scopes));
 	}
 
     @Override
-	public void enterFunction_interface_definition(@NotNull Function_interface_definitionContext ctx) {
-		beingBuilt.push(new FunctionInterfaceBuilder(programScopes));
+	public void enterSignature_definition(@NotNull MinstrelParser.Signature_definitionContext ctx) {
+		beingBuilt.push(new SignatureBuilder(scopes));
 	}
 
     @Override
 	public void enterError_statement(@NotNull Error_statementContext ctx) {
 		beingBuilt.push(new ErrorStatementBuilder());
 	}
+
+    @Override
+    public void enterMethod_call(@NotNull MinstrelParser.Method_callContext ctx) {
+        beingBuilt.push(new MethodCallBuilder());
+    }
 }

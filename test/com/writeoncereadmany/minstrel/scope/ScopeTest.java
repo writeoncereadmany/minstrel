@@ -13,7 +13,7 @@ public class ScopeTest {
     @Test
     public void noNamesInEmptyScope()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         assertThat(programScopes.contains("variable"), is(false));
         assertThat(programScopes.getDepth("variable"), is(-1));
     }
@@ -21,7 +21,7 @@ public class ScopeTest {
     @Test
     public void nameAddedToCurrentScopeHasDepthOfZero()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         programScopes.enterScope();
         programScopes.add("variable");
         assertThat(programScopes.contains("variable"), is(true));
@@ -31,7 +31,7 @@ public class ScopeTest {
     @Test
     public void nameAddedToPriorScopeHasDepthOfOne()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         programScopes.enterScope();
         programScopes.add("variable");
         programScopes.enterScope();
@@ -42,7 +42,7 @@ public class ScopeTest {
     @Test
     public void shadowedNamesReportTheClosestDepthOnly()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         programScopes.enterScope();
         programScopes.add("variable");
         programScopes.enterScope();
@@ -54,7 +54,7 @@ public class ScopeTest {
     @Test
     public void namesCanFallOutOfScope()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         programScopes.enterScope();
         programScopes.enterScope();
         programScopes.add("variable");
@@ -65,7 +65,7 @@ public class ScopeTest {
     @Test
     public void reportsDeBruijnIndicesCorrectly()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         programScopes.enterScope();
         programScopes.add("x");
         programScopes.add("y");
@@ -80,7 +80,7 @@ public class ScopeTest {
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddTheSameVariableToTheSameScopeTwice()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         programScopes.enterScope();
         programScopes.add("x");
         programScopes.add("x");
@@ -89,7 +89,7 @@ public class ScopeTest {
     @Test(expected=IllegalArgumentException.class)
     public void gettingDeBruijnIndexOfNonexistentVariableThrowsException()
     {
-        Scopes programScopes = new Scopes();
+        Scopes programScopes = new Scopes(new Scope());
         programScopes.getDeBruijnIndex("notHere");
     }
 
