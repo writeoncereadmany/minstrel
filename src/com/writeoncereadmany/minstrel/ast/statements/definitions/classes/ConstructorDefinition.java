@@ -18,4 +18,8 @@ public class ConstructorDefinition implements ASTNode {
         this.parameters = parameters;
         this.block = block;
     }
+
+    public Block getBlock() {
+        return block;
+    }
 }

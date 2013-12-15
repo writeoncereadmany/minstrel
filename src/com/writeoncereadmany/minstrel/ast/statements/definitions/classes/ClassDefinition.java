@@ -31,6 +31,6 @@ public class ClassDefinition implements Statement {
 
     @Override
     public void execute(ExecutionContext context, Environments environment) {
-        environment.defineValue(new Constructor());
+        environment.defineValue(new Constructor(environment, constructor, fields, methods));
     }
 }

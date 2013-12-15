@@ -26,4 +26,8 @@ public class MethodDefinition implements ASTNode {
     public String getName() {
         return name.getName();
     }
+
+    public Block getBody() {
+        return body;
+    }
 }

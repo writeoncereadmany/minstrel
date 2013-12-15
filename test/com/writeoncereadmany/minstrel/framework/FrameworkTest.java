@@ -302,12 +302,15 @@ public class FrameworkTest {
                      "       real is re;\n" +
                      "       imaginary is imag;\n" +
                      "   } \n" +
-                     "   method magnitude[] returns Number { return real + imaginary; } \n" +
-                     "}");
+                     "   method magnitude[] returns Number { return real * imaginary; } \n" +
+                     "} \n" +
+                     "Complex i is Complex[3, 4]; \n" +
+                     "print[i.magnitude[]]; \n",
+                     "12");
     }
 	
 	@Test
-	public void stopExecutingBlockWhenReturnStatementHit()
+	public void stopExecuingBlockWhenReturnStatementHit()
 	{
 		assertOutput("function foo[] returns Unit " +
 					 "{" +
