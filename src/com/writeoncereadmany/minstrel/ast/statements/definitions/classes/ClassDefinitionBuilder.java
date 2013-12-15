@@ -4,8 +4,11 @@ import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.ClassDefinition;
+import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tom on 14/12/2013.
@@ -14,9 +17,7 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
 
     private Name name;
     private Type classInterface;
-//    private List<Field> fields;
-//    private Constructor constructor;
-//    private List<Method> methods;
+    private ClassDefinitionBody body;
 
     private Scopes scopes;
 
@@ -25,7 +26,6 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
         scopes.enterScope();
         this.scopes = scopes;
     }
-
 
     @Override
     public void addNode(ASTNode node) {
@@ -40,14 +40,24 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
         }
         else
         {
-//            ClassBodyDefinition body = (ClassBodyDefinition)node;
+            body = (ClassDefinitionBody)node;
         }
 
     }
 
     @Override
     public ClassDefinition build(Scopes scopes) {
+        ConstructorDefinition constructor = body.getConstructor();
+        List<FieldDefinition> fields = body.getFields();
+        Map<String,MethodDefinition> methods = body.getMethods();
+
+        if(null == constructor)
+        {
+            throw new MinstrelParseException("A class requires a constructor");
+        }
+
         scopes.exitScope();
-        return new ClassDefinition(name, classInterface);
+
+        return new ClassDefinition(name, classInterface, constructor, fields, methods);
     }
 }

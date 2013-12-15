@@ -1,6 +1,7 @@
 package com.writeoncereadmany.minstrel.listeners;
 
 import com.writeoncereadmany.minstrel.generated.MinstrelListener;
+import com.writeoncereadmany.minstrel.generated.MinstrelParser;
 import com.writeoncereadmany.minstrel.generated.MinstrelParser.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -183,7 +184,17 @@ public class PrintingParseListener implements MinstrelListener {
 		System.out.println("Exiting a generic argument");
 	}
 
-	@Override
+    @Override
+    public void enterInitialisation_statement(@NotNull Initialisation_statementContext ctx) {
+        System.out.println("Entering an initialisation statement");
+    }
+
+    @Override
+    public void exitInitialisation_statement(@NotNull Initialisation_statementContext ctx) {
+        System.out.println("Exiting an initialisation statement");
+    }
+
+    @Override
 	public void enterParameter_list(@NotNull Parameter_listContext ctx) {
 		System.out.println("Entering a parameter list");
 	}

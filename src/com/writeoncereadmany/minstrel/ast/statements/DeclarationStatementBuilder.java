@@ -8,7 +8,7 @@ import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
-public class DeclarationBuilder implements ASTNodeBuilder<Declaration> {
+public class DeclarationStatementBuilder implements ASTNodeBuilder<DeclarationStatement> {
 
 	private Type type;
 	private Name name;
@@ -31,13 +31,13 @@ public class DeclarationBuilder implements ASTNodeBuilder<Declaration> {
 	}
 
 	@Override
-	public Declaration build(Scopes scopes) {
+	public DeclarationStatement build(Scopes scopes) {
         if(scopes.contains(name.getName()) && scopes.getDepth(name.getName()) == -1)
         {
             throw new MinstrelParseException("Cannot redeclare names in the system scope");
         }
         scopes.add(name.getName());
-		return new Declaration(type, name, value);
+		return new DeclarationStatement(type, name, value);
 	}
 
 }

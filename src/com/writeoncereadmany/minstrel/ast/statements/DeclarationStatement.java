@@ -6,13 +6,13 @@ import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 
-public class Declaration implements Statement {
+public class DeclarationStatement implements Statement {
 
 	private Expression value;
 	private Name name;
 	private Type type;
 	
-	public Declaration(Type type, Name name, Expression value)
+	public DeclarationStatement(Type type, Name name, Expression value)
 	{
 		this.type = type;
 		this.name = name;

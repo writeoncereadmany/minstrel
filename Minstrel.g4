@@ -88,7 +88,7 @@ name: IDENTIFIER;
 
 statement: expression ';'                                                  # expression_statement  
          | type name IS expression ';'                                     # declaration_statement  
- //      | name IS expression';'                                           # initialisation_statement
+         | name IS expression';'                                           # initialisation_statement
          | name BECOMES expression ';'                                     # reassignment_statement 
          | IF expression block (ELSE IF expression block)* (ELSE block)?   # if_statement 
          | WHILE expression block                                          # while_statement 

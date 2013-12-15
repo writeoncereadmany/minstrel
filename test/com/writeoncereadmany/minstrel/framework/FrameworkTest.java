@@ -282,9 +282,28 @@ public class FrameworkTest {
     }
 
     @Test
-    public void canDefineClassWithEmptyBody()
+    public void canDefineClassWithEmptyBodyOtherThanConstructor()
     {
-        assertOutput("class Complex implements Thingy {}");
+        assertOutput("class Complex implements Thingy \n" +
+                     "{\n" +
+                     "   construct[] {} \n" +
+                     "}");
+    }
+
+    @Test
+    public void canDefineClassWithFieldsAndMethods()
+    {
+        assertOutput("class Complex implements Thingy \n" +
+                     "{\n" +
+                     "   Number real;\n" +
+                     "   Number imaginary;\n" +
+                     "   construct[Number re, Number imag]\n" +
+                     "   { \n" +
+                     "       real is re;\n" +
+                     "       imaginary is imag;\n" +
+                     "   } \n" +
+                     "   method magnitude[] returns Number { return real + imaginary; } \n" +
+                     "}");
     }
 	
 	@Test

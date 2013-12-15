@@ -9,8 +9,7 @@ import com.writeoncereadmany.minstrel.ast.operators.SimpleBinaryOperators;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.*;
 import com.writeoncereadmany.minstrel.ast.expressions.*;
 import com.writeoncereadmany.minstrel.ast.statements.*;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.ClassDefinitionBodyBuilder;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.ClassDefinitionBuilder;
+import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.*;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.functions.FunctionDefinitionBuilder;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.functions.SignatureBuilder;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.interfaces.InterfaceDefinitionBodyBuilder;
@@ -133,7 +132,7 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 	
 	@Override
 	public void enterDeclaration_statement(@NotNull Declaration_statementContext ctx) {
-		beingBuilt.push(new DeclarationBuilder());
+		beingBuilt.push(new DeclarationStatementBuilder());
 	}
 	
 	@Override
@@ -267,5 +266,25 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
     @Override
     public void enterClass_body(@NotNull MinstrelParser.Class_bodyContext ctx) {
         beingBuilt.push(new ClassDefinitionBodyBuilder());
+    }
+
+    @Override
+    public void enterField_definition(@NotNull MinstrelParser.Field_definitionContext ctx) {
+        beingBuilt.push(new FieldDefinitionBuilder());
+    }
+
+    @Override
+    public void enterConstructor_definition(@NotNull MinstrelParser.Constructor_definitionContext ctx) {
+        beingBuilt.push(new ConstructorDefinitionBuilder(scopes));
+    }
+
+    @Override
+    public void enterMethod_definition(@NotNull MinstrelParser.Method_definitionContext ctx) {
+        beingBuilt.push(new MethodDefinitionBuilder(scopes));
+    }
+
+    @Override
+    public void enterInitialisation_statement(@NotNull MinstrelParser.Initialisation_statementContext ctx) {
+        beingBuilt.push(new InitialisationStatementBuilder());
     }
 }
