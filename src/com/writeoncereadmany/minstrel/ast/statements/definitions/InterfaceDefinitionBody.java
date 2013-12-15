@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * Created by tom on 14/12/2013.
  */
-public class InterfaceBody implements ASTNode {
+public class InterfaceDefinitionBody implements ASTNode {
 
     private Map<Name, Signature> methodSignatures;
 
-    public InterfaceBody(Map<Name, Signature> signatures) {
+    public InterfaceDefinitionBody(Map<Name, Signature> signatures) {
         methodSignatures = signatures;
     }
 

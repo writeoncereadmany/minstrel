@@ -239,16 +239,26 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 
     @Override
     public void enterInterface_definition(@NotNull MinstrelParser.Interface_definitionContext ctx) {
-        beingBuilt.push(new InterfaceBuilder());
+        beingBuilt.push(new InterfaceDefinitionBuilder());
     }
 
     @Override
     public void enterInterface_body(@NotNull MinstrelParser.Interface_bodyContext ctx) {
-        beingBuilt.push(new InterfaceBodyBuilder());
+        beingBuilt.push(new InterfaceDefinitionBodyBuilder());
     }
 
     @Override
     public void enterMethod_declaration(@NotNull MinstrelParser.Method_declarationContext ctx) {
         beingBuilt.push(new MethodDeclarationBuilder(scopes));
+    }
+
+    @Override
+    public void enterClass_definition(@NotNull MinstrelParser.Class_definitionContext ctx) {
+        beingBuilt.push(new ClassDefinitionBuilder(scopes));
+    }
+
+    @Override
+    public void enterClass_body(@NotNull MinstrelParser.Class_bodyContext ctx) {
+        beingBuilt.push(new ClassDefinitionBodyBuilder());
     }
 }

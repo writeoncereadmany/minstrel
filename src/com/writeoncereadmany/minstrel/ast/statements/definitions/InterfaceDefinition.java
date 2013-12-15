@@ -13,13 +13,13 @@ import java.util.Map;
 /**
  * Created by tom on 14/12/2013.
  */
-public class Interface implements Statement {
+public class InterfaceDefinition implements Statement {
 
     private Name name;
     private List<Type> extendedInterfaces = new ArrayList<Type>();
     private Map<Name, Signature> methodSignatures;
 
-    public Interface(Name name, List<Type> extendedInterfaces, Map<Name, Signature> methodSignatures)
+    public InterfaceDefinition(Name name, List<Type> extendedInterfaces, Map<Name, Signature> methodSignatures)
     {
         this.name = name;
         this.methodSignatures = methodSignatures;

@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by tom on 14/12/2013.
  */
-public class InterfaceBuilder implements ASTNodeBuilder<Interface> {
+public class InterfaceDefinitionBuilder implements ASTNodeBuilder<InterfaceDefinition> {
 
 
     private Name name;
@@ -30,14 +30,14 @@ public class InterfaceBuilder implements ASTNodeBuilder<Interface> {
         if(node instanceof Type) {
             this.extendedInterfaces.add((Type)node);
         }
-        if(node instanceof InterfaceBody)
+        if(node instanceof InterfaceDefinitionBody)
         {
-            methodSignatures = ((InterfaceBody)node).getMethodSignatures();
+            methodSignatures = ((InterfaceDefinitionBody)node).getMethodSignatures();
         }
     }
 
     @Override
-    public Interface build(Scopes scopes) {
-        return new Interface(name, extendedInterfaces, methodSignatures);
+    public InterfaceDefinition build(Scopes scopes) {
+        return new InterfaceDefinition(name, extendedInterfaces, methodSignatures);
     }
 }

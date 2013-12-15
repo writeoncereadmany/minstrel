@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by tom on 14/12/2013.
  */
-public class InterfaceBodyBuilder implements ASTNodeBuilder<InterfaceBody>{
+public class InterfaceDefinitionBodyBuilder implements ASTNodeBuilder<InterfaceDefinitionBody>{
 
     Map<Name, Signature> methodSignatures = new HashMap<Name, Signature>();
 
@@ -22,7 +22,7 @@ public class InterfaceBodyBuilder implements ASTNodeBuilder<InterfaceBody>{
     }
 
     @Override
-    public InterfaceBody build(Scopes scopes) {
-        return new InterfaceBody(methodSignatures);
+    public InterfaceDefinitionBody build(Scopes scopes) {
+        return new InterfaceDefinitionBody(methodSignatures);
     }
 }

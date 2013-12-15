@@ -67,6 +67,11 @@ public class FrameworkTest {
 	}
 
 	@Test
+	public void canChainMethods() {
+		assertOutput("print[2.plus[4].plus[3]];", "9");
+	}
+
+	@Test
 	public void canUseMethodNotationForSubtraction() {
 		assertOutput("print[10.minus[4]];", "6");
 	}
@@ -120,10 +125,10 @@ public class FrameworkTest {
 		assertOutput("Integer two is 2; two becomes 5; print[two];", "5");
 	}
 	
-	@Test(expected=MinstrelParseException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void shouldNotSupportReassigningVariablesWhichHaveNotBeenDeclared()
 	{
-		assertOutput("Integer two becomes 5;");
+		assertOutput("two becomes 5;");
 	}
 	
 	@Test
@@ -274,6 +279,12 @@ public class FrameworkTest {
                      "   method shine[] returns Unit;  \n" +
                      "}  \n" +
                      "interface LovelyHair extends Bouncy, Shiny {} ");
+    }
+
+    @Test
+    public void canDefineClassWithEmptyBody()
+    {
+        assertOutput("class Complex implements Thingy {}");
     }
 	
 	@Test
