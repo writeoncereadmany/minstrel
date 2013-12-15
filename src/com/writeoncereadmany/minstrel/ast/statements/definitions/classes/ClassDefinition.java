@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.ast.statements.definitions;
+package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;

@@ -1,8 +1,9 @@
-package com.writeoncereadmany.minstrel.ast.statements.definitions;
+package com.writeoncereadmany.minstrel.ast.statements.definitions.interfaces;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
+import com.writeoncereadmany.minstrel.ast.statements.definitions.functions.Signature;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 

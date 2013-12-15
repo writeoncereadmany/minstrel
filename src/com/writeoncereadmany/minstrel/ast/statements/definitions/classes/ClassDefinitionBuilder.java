@@ -1,9 +1,10 @@
-package com.writeoncereadmany.minstrel.ast.statements.definitions;
+package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.ClassDefinition;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 /**
