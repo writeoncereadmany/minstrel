@@ -2,7 +2,7 @@ package com.writeoncereadmany.minstrel.ast.miscellaneous;
 
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 
-public class Name implements ASTNode {
+public class Name implements ASTNode, Comparable<Name> {
 
 	private final String name;
 
@@ -27,5 +27,10 @@ public class Name implements ASTNode {
     public int hashCode()
     {
         return name.hashCode();
+    }
+
+    @Override
+    public int compareTo(final Name other) {
+        return name.compareTo(other.getName());
     }
 }

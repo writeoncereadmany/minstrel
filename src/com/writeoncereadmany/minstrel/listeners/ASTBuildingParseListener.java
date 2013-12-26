@@ -287,4 +287,9 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
     public void enterInitialisation_statement(@NotNull MinstrelParser.Initialisation_statementContext ctx) {
         beingBuilt.push(new InitialisationStatementBuilder());
     }
+
+    @Override
+    public void enterModifier(@NotNull MinstrelParser.ModifierContext ctx) {
+        beingBuilt.push(new ModifierBuilder());
+    }
 }

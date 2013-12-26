@@ -2,6 +2,7 @@ package com.writeoncereadmany.minstrel.listeners;
 
 import java.util.BitSet;
 
+import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;

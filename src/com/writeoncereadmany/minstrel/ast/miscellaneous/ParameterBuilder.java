@@ -23,7 +23,7 @@ public class ParameterBuilder implements ASTNodeBuilder<Parameter> {
 
 	@Override
 	public Parameter build(Scopes scopes) {
-        scopes.add(name.getName());
+        scopes.add(type, name);
 		return new Parameter(type, name);
 	}
 

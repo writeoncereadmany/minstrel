@@ -2,11 +2,10 @@ package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Block;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.ParameterList;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.*;
 import com.writeoncereadmany.minstrel.scope.Scopes;
+
+import java.util.ArrayList;
 
 /**
  * Created by tom on 15/12/2013.
@@ -30,7 +29,8 @@ public class MethodDefinitionBuilder implements ASTNodeBuilder<MethodDefinition>
         if(null == name)
         {
             name = (Name)node;
-            this.scopes.peekAtDepth(1).add(name.getName());
+            Type methodType = new Type(new ArrayList<Modifier>(), new Name("Method " + name));
+            this.scopes.peekAtDepth(1).add(methodType, name);
         }
         else if(null == parameters)
         {

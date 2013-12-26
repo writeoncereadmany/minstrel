@@ -1,4 +1,4 @@
-package com.writeoncereadmany.minstrel.listeners;
+package com.writeoncereadmany.minstrel.listeners.exceptions;
 
 public class MinstrelParseException extends RuntimeException {
 

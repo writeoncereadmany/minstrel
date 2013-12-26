@@ -1,5 +1,9 @@
 package com.writeoncereadmany.minstrel.scope;
 
+import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.listeners.exceptions.UnrecognisedNameException;
+
 import java.util.Stack;
 
 /**
@@ -40,9 +44,9 @@ public class Scopes {
         return scopes.size() - 1;
     }
 
-    public void add(String name)
+    public void add(Type type, Name name)
     {
-        scopes.peek().add(name);
+        scopes.peek().add(type, name);
     }
 
     public boolean contains(String name)
@@ -69,11 +73,21 @@ public class Scopes {
     public DeBruijnIndex getDeBruijnIndex(String name) {
         if(!contains(name))
         {
-            throw new IllegalArgumentException("Name " + name + " not found in scopes");
+            throw new UnrecognisedNameException("Name " + name + " not found in scopes");
         }
         final int depth = getDepth(name);
         final int position = peekAtDepth(depth).indexOf(name);
         return new DeBruijnIndex(depth, position);
+    }
+
+    public Type typeOf(String name)
+    {
+        if(!contains(name))
+        {
+            throw new UnrecognisedNameException("Name " + name + " not found in scopes");
+        }
+        final int depth = getDepth(name);
+        return peekAtDepth(depth).typeOf(name);
     }
 
     public boolean isEmpty() {

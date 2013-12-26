@@ -30,7 +30,7 @@ public class FieldDefinitionBuilder implements ASTNodeBuilder<FieldDefinition> {
 
     @Override
     public FieldDefinition build(Scopes scopes) {
-        scopes.add(name.getName());
+        scopes.add(type, name);
         return new FieldDefinition(type, name);
     }
 }

@@ -3,17 +3,16 @@ package com.writeoncereadmany.minstrel.framework;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.writeoncereadmany.minstrel.listeners.exceptions.*;
 import com.writeoncereadmany.minstrel.runtime.environment.SystemEnvironment;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.values.functions.PrintFunction;
 import com.writeoncereadmany.minstrel.scope.Scope;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.writeoncereadmany.minstrel.generated.MinstrelBaseListener;
-import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
 import com.writeoncereadmany.minstrel.listeners.PrintingParseListener;
 import com.writeoncereadmany.minstrel.runtime.utility.Printer;
 
@@ -113,19 +112,25 @@ public class FrameworkTest {
 		assertOutput("String name is \"Timothy\"; print[name];", "Timothy");
 	}
 	
-	@Test(expected=MinstrelParseException.class)
+	@Test(expected=NameAlreadyExistsException.class)
 	public void shouldNotSupportRedeclaringVariables()
 	{
-		assertOutput("Integer three is 3; Integer three is 5;");
+		assertOutput("Number three is 3; Integer three is 5;");
 	}
 	
 	@Test
-	public void shouldSupportReassigningVariables()
+	public void shouldSupportReassigningWhenDeclaredVariable()
 	{
-		assertOutput("Integer two is 2; two becomes 5; print[two];", "5");
+		assertOutput("variable Number two is 2; two becomes 5; print[two];", "5");
+	}
+
+	@Test(expected=IllegalReassignmentException.class)
+	public void shouldNotSupportReassigningWhenNotDeclaredVariable()
+	{
+		assertOutput("Number two is 2; two becomes 5; print[two];");
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected=UnrecognisedNameException.class)
 	public void shouldNotSupportReassigningVariablesWhichHaveNotBeenDeclared()
 	{
 		assertOutput("two becomes 5;");
@@ -148,16 +153,28 @@ public class FrameworkTest {
 	@Test
 	public void shouldSupportIfStatements()
 	{
-		assertOutput("Integer a is 5; if 2 + 2 = 5 { a becomes 7;} print[a];", "5");
-		assertOutput("Integer a is 5; if 2 + 2 =/= 5 { a becomes 7;} print[a];", "7");
+		assertOutput("variable Number a is 5; if 2 + 2 = 5 { a becomes 7;} print[a];", "5");
+		assertOutput("variable Number a is 5; if 2 + 2 =/= 5 { a becomes 7;} print[a];", "7");
 	}
+
+    @Test
+    public void shouldAllowAssignmentOfIntegerToIntegerReference()
+    {
+        assertOutput("Number a is 5; print[a];", "5");
+    }
+
+    @Test(expected=TypeMismatchException.class)
+    public void shouldNotAllowAssignmentOfStringToIntegerReference()
+    {
+        assertOutput("Number a is \"Hello world!\"");
+    }
 	
 	@Test
 	public void shouldSupportWhileStatements()
 	{
-		assertOutput("Integer factorial is 1; " +
-					 "Integer n is 5; " +
-					 "Integer progress is 1; " +
+		assertOutput("variable Number factorial is 1; " +
+					 "Number n is 5; " +
+					 "variable Number progress is 1; " +
 					 "while progress =/= n " +
 					 "{ " +
 					 "    progress becomes progress + 1; " +
@@ -171,13 +188,13 @@ public class FrameworkTest {
 	@Test
 	public void shouldSupportDefiningAndCallingFunctions()
 	{
-		assertOutput("function square[Integer x] returns Integer { return x * x; } print[square[9]];", "81");
+		assertOutput("function square[Number x] returns Number { return x * x; } print[square[9]];", "81");
 	}
 	
 	@Test
 	public void shouldSupportCallingFunctionMultipleTimes()
 	{
-		assertOutput("function square[Integer x] returns Integer { return x * x; } " +
+		assertOutput("function square[Number x] returns Number { return x * x; } " +
 				     "print[square[9]]; " +
 				     "print[square[2]];", 
 				     "81", "4");
@@ -186,32 +203,32 @@ public class FrameworkTest {
 	@Test
 	public void shouldReferToHigherScopesIfVariablesNotBoundInCurrentScope()
 	{
-		assertOutput("Integer a is 5;" +
-					 "Integer b is 7;" +
-					 "function foo[Integer a] returns Integer { return a * b; } " +
+		assertOutput("Number a is 5;" +
+					 "Number b is 7;" +
+					 "function foo[Number a] returns Number { return a * b; } " +
 				     "print[foo[11]];",
 				     "77");
 	}
 	
-	@Test(expected = MinstrelParseException.class)
-	public void shouldNotBeAbleToReassignToSystemScopeNames()
+	@Test(expected = IllegalOverrideException.class)
+	public void shouldNotBeAbleToOverrideSystemScopeNames()
 	{
-		assertOutput("Integer print is 4;");
+		assertOutput("Number print is 4;");
 	}
 	
 	@Test
 	public void canDeclareFunctionInterfaces()
 	{
-		assertOutput("signature Foo[] returns Integer;");
+		assertOutput("signature Foo[] returns Number;");
 	}
 	
 	@Test
 	public void canDeclareAnonymousFunctions()
 	{
-		assertOutput("signature Foo[Integer x] returns Integer; " +
+		assertOutput("signature Foo[Number x] returns Number; " +
 				     "function makeAFoo[] returns Foo " +
 				     "{ " +
-				     "   return function[Integer x] returns Integer " +
+				     "   return function[Number x] returns Number " +
 				     "   {" +
 				     "      return x*2;" +
 				     "   };" +
@@ -224,7 +241,7 @@ public class FrameworkTest {
 	@Test
 	public void supportsRecursiveFunctions()
 	{
-		assertOutput("function factorial[Integer n] returns Integer " +
+		assertOutput("function factorial[Number n] returns Number " +
 					 "{ " +
 					 "   if(n = 0) { return 1; }" +
 					 "   return n * factorial[n-1];" +
@@ -242,15 +259,15 @@ public class FrameworkTest {
 	@Test
 	public void shouldAllowBoundVariablesToEscapeScope()
 	{
-		assertOutput("signature Constant[] returns Integer;" +
+		assertOutput("signature Constant[] returns Number;" +
 				     "function binder[] returns Constant" +
 				     "{" +
-				     "    Integer a is 5;" +
-				     "    return function[] returns Integer { return a; };  " +
+				     "    Number a is 5;" +
+				     "    return function[] returns Number { return a; };  " +
 				     "} " +
 				     "function useBinder[Constant func] returns Unit " +
 				     "{" +
-				     "   Integer a is 8;" +
+				     "   Number a is 8;" +
 				     "   print[func[]];" +
 				     "}" +
 				     "useBinder[binder[]];",
@@ -329,8 +346,8 @@ public class FrameworkTest {
                 "12");
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void cannotCallMethodsFromOtherMethods()
+    @Test(expected=UnrecognisedNameException.class)
+    public void cannotCallMethodsWhichHaventBeenDeclaredYet()
     {
         assertOutput("class Complex implements Thingy \n" +
                 "{\n" +
@@ -346,7 +363,7 @@ public class FrameworkTest {
                 "} \n");
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected=UnrecognisedNameException.class)
     public void cannotCallMethodsOutsideAnObject()
     {
         assertOutput("class Complex implements Thingy \n" +

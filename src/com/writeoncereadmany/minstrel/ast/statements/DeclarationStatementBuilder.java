@@ -5,7 +5,9 @@ import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.IllegalOverrideException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.IllegalReassignmentException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 public class DeclarationStatementBuilder implements ASTNodeBuilder<DeclarationStatement> {
@@ -34,9 +36,9 @@ public class DeclarationStatementBuilder implements ASTNodeBuilder<DeclarationSt
 	public DeclarationStatement build(Scopes scopes) {
         if(scopes.contains(name.getName()) && scopes.getDepth(name.getName()) == -1)
         {
-            throw new MinstrelParseException("Cannot redeclare names in the system scope");
+            throw new IllegalOverrideException("Cannot override names in the system scope");
         }
-        scopes.add(name.getName());
+        scopes.add(type, name);
 		return new DeclarationStatement(type, name, value);
 	}
 

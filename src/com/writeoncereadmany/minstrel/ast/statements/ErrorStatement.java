@@ -3,7 +3,7 @@ package com.writeoncereadmany.minstrel.ast.statements;
 import java.util.List;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ArgumentList;
-import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.values.Value;

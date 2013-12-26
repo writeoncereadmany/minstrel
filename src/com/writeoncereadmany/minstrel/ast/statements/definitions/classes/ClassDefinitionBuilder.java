@@ -2,12 +2,15 @@ package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.Modifier;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +36,8 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
         if(name == null)
         {
             name = (Name)node;
-            scopes.peekAtDepth(1).add(name.getName());
+            Type constructorType = new Type(new ArrayList<Modifier>(), new Name("Constructor for " + name.getName()));
+            scopes.peekAtDepth(1).add(constructorType, name);
         }
         else if (classInterface == null)
         {

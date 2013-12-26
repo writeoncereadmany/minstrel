@@ -2,7 +2,7 @@ package com.writeoncereadmany.minstrel.ast.statements;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.scope.DeBruijnIndex;

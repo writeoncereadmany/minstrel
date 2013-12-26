@@ -1,12 +1,11 @@
 package com.writeoncereadmany.minstrel.ast.statements.definitions.functions;
 
 import com.writeoncereadmany.minstrel.ast.*;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Block;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.ParameterList;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.*;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.functions.FunctionDefinition;
 import com.writeoncereadmany.minstrel.scope.Scopes;
+
+import java.util.ArrayList;
 
 public class FunctionDefinitionBuilder implements ASTNodeBuilder<FunctionDefinition> {
 
@@ -27,7 +26,8 @@ public class FunctionDefinitionBuilder implements ASTNodeBuilder<FunctionDefinit
 		if(null == name)
 		{
 			name = (Name)node;
-            scopes.peekAtDepth(1).add(name.getName());
+            Type functionType = new Type(new ArrayList<Modifier>(), new Name("Function " + name.getName()));
+            scopes.peekAtDepth(1).add(functionType, name);
 		}
 		else if(null == parameterList)
 		{

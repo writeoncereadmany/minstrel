@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.ast;
 
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
-import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 import java.util.ArrayList;
