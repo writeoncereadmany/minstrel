@@ -18,19 +18,19 @@ public class ClassDefinition implements Statement {
     private Name name;
     private Type classInterface;
     private ConstructorDefinition constructor;
-    private List<FieldDefinition> fields;
+    private List<Statement> statements;
     private Map<String, MethodDefinition> methods;
 
-    public ClassDefinition(Name name, Type classInterface, ConstructorDefinition constructor, List<FieldDefinition> fields, Map<String, MethodDefinition> methods) {
+    public ClassDefinition(Name name, Type classInterface, ConstructorDefinition constructor, List<Statement> statements, Map<String, MethodDefinition> methods) {
         this.name = name;
         this.classInterface = classInterface;
         this.constructor = constructor;
-        this.fields = fields;
+        this.statements = statements;
         this.methods = methods;
     }
 
     @Override
     public void execute(ExecutionContext context, Environments environment) {
-        environment.defineValue(new Constructor(environment, constructor, fields, methods));
+        environment.defineValue(new Constructor(environment, constructor, statements, methods));
     }
 }

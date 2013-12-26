@@ -308,9 +308,65 @@ public class FrameworkTest {
                      "print[i.magnitude[]]; \n",
                      "12");
     }
+
+    @Test
+    public void canCallMethodsFromOtherMethods()
+    {
+        assertOutput("class Complex implements Thingy \n" +
+                "{\n" +
+                "   Number real;\n" +
+                "   Number imaginary;\n" +
+                "   construct[Number re, Number imag]\n" +
+                "   { \n" +
+                "       real is re;\n" +
+                "       imaginary is imag;\n" +
+                "   } \n" +
+                "   method magnitude[] returns Number { return real * imaginary; } \n" +
+                "   method magnitude2[] returns Number { return magnitude[]; } \n " +
+                "} \n" +
+                "Complex i is Complex[3, 4]; \n" +
+                "print[i.magnitude2[]]; \n",
+                "12");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotCallMethodsFromOtherMethods()
+    {
+        assertOutput("class Complex implements Thingy \n" +
+                "{\n" +
+                "   Number real;\n" +
+                "   Number imaginary;\n" +
+                "   construct[Number re, Number imag]\n" +
+                "   { \n" +
+                "       real is re;\n" +
+                "       imaginary is imag;\n" +
+                "   } \n" +
+                "   method magnitude2[] returns Number { return magnitude[]; } \n " +
+                "   method magnitude[] returns Number { return real * imaginary; } \n" +
+                "} \n");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void cannotCallMethodsOutsideAnObject()
+    {
+        assertOutput("class Complex implements Thingy \n" +
+                "{\n" +
+                "   Number real;\n" +
+                "   Number imaginary;\n" +
+                "   construct[Number re, Number imag]\n" +
+                "   { \n" +
+                "       real is re;\n" +
+                "       imaginary is imag;\n" +
+                "   } \n" +
+                "   method magnitude[] returns Number { return real * imaginary; } \n" +
+                "   method magnitude2[] returns Number { return magnitude[]; } \n " +
+                "} \n" +
+                "Complex i is Complex[3, 4]; \n" +
+                "print[magnitude2[]]; \n");
+    }
 	
 	@Test
-	public void stopExecuingBlockWhenReturnStatementHit()
+	public void stopExecutingBlockWhenReturnStatementHit()
 	{
 		assertOutput("function foo[] returns Unit " +
 					 "{" +

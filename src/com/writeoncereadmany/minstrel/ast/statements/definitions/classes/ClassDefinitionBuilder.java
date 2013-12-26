@@ -4,6 +4,7 @@ import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.listeners.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
@@ -48,7 +49,7 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
     @Override
     public ClassDefinition build(Scopes scopes) {
         ConstructorDefinition constructor = body.getConstructor();
-        List<FieldDefinition> fields = body.getFields();
+        List<Statement> statements = body.getStatements();
         Map<String,MethodDefinition> methods = body.getMethods();
 
         if(null == constructor)
@@ -58,6 +59,6 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
 
         scopes.exitScope();
 
-        return new ClassDefinition(name, classInterface, constructor, fields, methods);
+        return new ClassDefinition(name, classInterface, constructor, statements, methods);
     }
 }

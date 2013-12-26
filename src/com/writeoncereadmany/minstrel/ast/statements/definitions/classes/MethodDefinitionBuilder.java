@@ -13,6 +13,7 @@ import com.writeoncereadmany.minstrel.scope.Scopes;
  */
 public class MethodDefinitionBuilder implements ASTNodeBuilder<MethodDefinition> {
 
+    private final Scopes scopes;
     private Name name;
     private ParameterList parameters;
     private Type returnType;
@@ -21,6 +22,7 @@ public class MethodDefinitionBuilder implements ASTNodeBuilder<MethodDefinition>
     public MethodDefinitionBuilder(Scopes scopes)
     {
         scopes.enterScope();
+        this.scopes = scopes;
     }
 
     @Override
@@ -28,6 +30,7 @@ public class MethodDefinitionBuilder implements ASTNodeBuilder<MethodDefinition>
         if(null == name)
         {
             name = (Name)node;
+            this.scopes.peekAtDepth(1).add(name.getName());
         }
         else if(null == parameters)
         {

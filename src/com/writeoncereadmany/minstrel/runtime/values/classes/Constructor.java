@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.runtime.values.classes;
 
+import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.ConstructorDefinition;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.FieldDefinition;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.classes.MethodDefinition;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
@@ -19,13 +19,13 @@ public class Constructor implements Function {
 
     private final Environments boundEnvironments;
     private final ConstructorDefinition constructor;
-    private final List<FieldDefinition> fields;
+    private final List<Statement> statements;
     private final Map<String, MethodDefinition> methods;
 
-    public Constructor(Environments environments, ConstructorDefinition constructor, List<FieldDefinition> fields, Map<String, MethodDefinition> methods) {
+    public Constructor(Environments environments, ConstructorDefinition constructor, List<Statement> statements, Map<String, MethodDefinition> methods) {
         this.boundEnvironments = environments;
         this.constructor = constructor;
-        this.fields = fields;
+        this.statements = statements;
         this.methods = methods;
     }
 
@@ -33,7 +33,7 @@ public class Constructor implements Function {
     public Value call(ExecutionContext context, Environment environment) {
         Environment objectEnvironment = new Environment();
         Environments objectEnvironments = boundEnvironments.childEnvironment(objectEnvironment);
-        for(FieldDefinition field: fields)
+        for(Statement field: statements)
         {
             field.execute(context, objectEnvironments);
         }
