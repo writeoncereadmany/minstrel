@@ -17,12 +17,14 @@ public class Main {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException
+    {
 		if(args.length != 1) 
 		{
 			System.out.println("Usage: java -jar minstrel.jar <filename>");
 			return;
 		}
+
 		Scanner scanner = new Scanner(new File(args[0]));
 		scanner.useDelimiter("\\z");
 		String program = scanner.next();
@@ -39,7 +41,8 @@ public class Main {
 
     private static Printer printer()
     {
-        return new Printer() {
+        return new Printer()
+        {
 
             @Override
             public void println(String toPrint) {
