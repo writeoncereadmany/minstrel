@@ -1,8 +1,7 @@
 package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
-import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
@@ -13,10 +12,10 @@ import com.writeoncereadmany.minstrel.runtime.values.enums.UnassignedFieldValue;
  */
 public class FieldDefinition implements Statement {
 
-    private final Type type;
+    private final TypeReference type;
     private final Name name;
 
-    public FieldDefinition(Type type, Name name) {
+    public FieldDefinition(TypeReference type, Name name) {
         this.type = type;
         this.name = name;
     }

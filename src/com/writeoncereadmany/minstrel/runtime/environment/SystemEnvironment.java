@@ -1,8 +1,7 @@
 package com.writeoncereadmany.minstrel.runtime.environment;
 
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Modifier;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.runtime.utility.Printer;
 import com.writeoncereadmany.minstrel.runtime.values.enums.BooleanValue;
 import com.writeoncereadmany.minstrel.runtime.values.enums.UnitValue;
@@ -12,7 +11,6 @@ import com.writeoncereadmany.minstrel.runtime.values.functions.PrintFunction;
 import com.writeoncereadmany.minstrel.scope.Reference;
 import com.writeoncereadmany.minstrel.scope.Scope;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -57,7 +55,7 @@ public class SystemEnvironment {
 
     private static Reference forName(String name)
     {
-        return new Reference(new Type(new Name("Don't care")), new Name(name));
+        return new Reference(new TypeReference(new Name("Don't care")), new Name(name));
     }
 
 }

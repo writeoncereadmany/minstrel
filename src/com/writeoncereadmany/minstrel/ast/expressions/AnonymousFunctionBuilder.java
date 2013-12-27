@@ -3,13 +3,13 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 import com.writeoncereadmany.minstrel.ast.*;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Block;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ParameterList;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 public class AnonymousFunctionBuilder implements ASTNodeBuilder<AnonymousFunction> {
 
 	ParameterList parameterList;
-	Type type;
+	TypeReference type;
 	Block block;
 
     public AnonymousFunctionBuilder(Scopes scopes)
@@ -25,7 +25,7 @@ public class AnonymousFunctionBuilder implements ASTNodeBuilder<AnonymousFunctio
 		}
 		else if(null == type)
 		{
-			type = (Type)node;
+			type = (TypeReference)node;
 		}
 		else
 		{

@@ -1,8 +1,7 @@
 package com.writeoncereadmany.minstrel.scope;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
-import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.listeners.exceptions.NameAlreadyExistsException;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class Scope {
     private final List<Reference> references = new ArrayList<Reference>();
     private List<String> names = new ArrayList<String>();
 
-    public void add(Type type, Name name)
+    public void add(TypeReference type, Name name)
     {
         add(new Reference(type, name));
     }
@@ -40,12 +39,12 @@ public class Scope {
         return names.indexOf(name);
     }
 
-    public Type typeOf(String name)
+    public TypeReference typeOf(String name)
     {
         return typeOf(indexOf(name));
     }
 
-    public Type typeOf(int position) {
+    public TypeReference typeOf(int position) {
         return references.get(position).getType();
     }
 }

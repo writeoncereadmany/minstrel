@@ -1,10 +1,9 @@
 package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
-import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Block;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ParameterList;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
@@ -17,10 +16,10 @@ public class MethodDefinition implements Statement {
 
     private Name name;
     private ParameterList parameters;
-    private Type returnType;
+    private TypeReference returnType;
     private Block body;
 
-    public MethodDefinition(Name name, ParameterList parameters, Type returnType, Block body) {
+    public MethodDefinition(Name name, ParameterList parameters, TypeReference returnType, Block body) {
         this.name = name;
         this.parameters = parameters;
         this.returnType = returnType;

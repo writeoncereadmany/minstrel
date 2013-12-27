@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
@@ -16,12 +16,12 @@ import java.util.Map;
 public class ClassDefinition implements Statement {
 
     private Name name;
-    private Type classInterface;
+    private TypeReference classInterface;
     private ConstructorDefinition constructor;
     private List<Statement> statements;
     private Map<String, MethodDefinition> methods;
 
-    public ClassDefinition(Name name, Type classInterface, ConstructorDefinition constructor, List<Statement> statements, Map<String, MethodDefinition> methods) {
+    public ClassDefinition(Name name, TypeReference classInterface, ConstructorDefinition constructor, List<Statement> statements, Map<String, MethodDefinition> methods) {
         this.name = name;
         this.classInterface = classInterface;
         this.constructor = constructor;

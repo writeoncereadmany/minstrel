@@ -1,23 +1,23 @@
 package com.writeoncereadmany.minstrel.scope;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 
 /**
  * Created by tom on 26/12/2013.
  */
 public class Reference implements Comparable<Reference> {
 
-    private final Type type;
+    private final TypeReference type;
     private final Name name;
 
-    public Reference(Type type, Name name)
+    public Reference(TypeReference type, Name name)
     {
         this.type = type;
         this.name = name;
     }
 
-    public Type getType() {
+    public TypeReference getType() {
         return type;
     }
 

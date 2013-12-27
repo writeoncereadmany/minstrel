@@ -1,13 +1,10 @@
 package com.writeoncereadmany.minstrel.scope;
 
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Modifier;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.listeners.exceptions.NameAlreadyExistsException;
 import com.writeoncereadmany.minstrel.listeners.exceptions.UnrecognisedNameException;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class ScopeTest {
 
-    private final static Type TYPE = new Type(new Name("Type"));
+    private final static TypeReference TYPE = new TypeReference(new Name("TypeReference"));
 
     @Test
     public void noNamesInEmptyScope()

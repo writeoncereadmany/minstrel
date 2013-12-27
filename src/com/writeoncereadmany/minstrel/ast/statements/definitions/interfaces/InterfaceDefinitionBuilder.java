@@ -3,7 +3,7 @@ package com.writeoncereadmany.minstrel.ast.statements.definitions.interfaces;
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.functions.Signature;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
@@ -19,7 +19,7 @@ public class InterfaceDefinitionBuilder implements ASTNodeBuilder<InterfaceDefin
 
 
     private Name name;
-    private List<Type> extendedInterfaces = new ArrayList<Type>();
+    private List<TypeReference> extendedInterfaces = new ArrayList<TypeReference>();
     private Map<Name, Signature> methodSignatures = new HashMap<Name, Signature>();
 
     @Override
@@ -28,8 +28,8 @@ public class InterfaceDefinitionBuilder implements ASTNodeBuilder<InterfaceDefin
         {
             this.name = (Name)node;
         }
-        if(node instanceof Type) {
-            this.extendedInterfaces.add((Type)node);
+        if(node instanceof TypeReference) {
+            this.extendedInterfaces.add((TypeReference)node);
         }
         if(node instanceof InterfaceDefinitionBody)
         {

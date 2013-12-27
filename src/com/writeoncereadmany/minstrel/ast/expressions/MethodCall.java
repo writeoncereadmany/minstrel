@@ -2,7 +2,7 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ArgumentList;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
@@ -38,8 +38,8 @@ public class MethodCall implements Expression {
     }
 
     @Override
-    public Type getType(Scopes scopes) {
-        return new Type(new Name("Unknown"));
+    public TypeReference getType(Scopes scopes) {
+        return new TypeReference(new Name("Unknown"));
     }
 
 }

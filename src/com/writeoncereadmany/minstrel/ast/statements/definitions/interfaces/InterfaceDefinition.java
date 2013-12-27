@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.ast.statements.definitions.interfaces;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.ast.statements.definitions.functions.Signature;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
@@ -17,10 +17,10 @@ import java.util.Map;
 public class InterfaceDefinition implements Statement {
 
     private Name name;
-    private List<Type> extendedInterfaces = new ArrayList<Type>();
+    private List<TypeReference> extendedInterfaces = new ArrayList<TypeReference>();
     private Map<Name, Signature> methodSignatures;
 
-    public InterfaceDefinition(Name name, List<Type> extendedInterfaces, Map<Name, Signature> methodSignatures)
+    public InterfaceDefinition(Name name, List<TypeReference> extendedInterfaces, Map<Name, Signature> methodSignatures)
     {
         this.name = name;
         this.methodSignatures = methodSignatures;

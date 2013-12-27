@@ -1,7 +1,6 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
-import com.writeoncereadmany.minstrel.ast.expressions.Expression;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
@@ -25,7 +24,7 @@ public class Variable implements Expression {
 	}
 
     @Override
-    public Type getType(Scopes scopes) {
+    public TypeReference getType(Scopes scopes) {
         return scopes.typeOf(index);
     }
 

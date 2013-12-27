@@ -6,14 +6,14 @@ import com.writeoncereadmany.minstrel.scope.Scopes;
 
 public class ParameterBuilder implements ASTNodeBuilder<Parameter> {
 
-	private Type type;
+	private TypeReference type;
 	private Name name;
 	
 	@Override
 	public void addNode(ASTNode node) {
 		if(null == type)
 		{
-			this.type = (Type)node;
+			this.type = (TypeReference)node;
 		}
 		else 
 		{

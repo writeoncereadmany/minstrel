@@ -1,9 +1,8 @@
 package com.writeoncereadmany.minstrel.ast.expressions;
 
 
-import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.values.objects.StringValue;
@@ -25,8 +24,8 @@ public class StringLiteral implements Expression {
 	}
 
     @Override
-    public Type getType(Scopes scopes) {
-        return new Type(new Name("String"));
+    public TypeReference getType(Scopes scopes) {
+        return new TypeReference(new Name("String"));
     }
 
 }

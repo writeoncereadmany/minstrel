@@ -2,13 +2,12 @@ package com.writeoncereadmany.minstrel.ast.miscellaneous;
 
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeBuilder implements ASTNodeBuilder<Type> {
+public class TypeReferenceBuilder implements ASTNodeBuilder<TypeReference> {
 
     private List<Modifier> modifiers = new ArrayList<Modifier>();
     private Name name;
@@ -27,8 +26,8 @@ public class TypeBuilder implements ASTNodeBuilder<Type> {
     }
 
 	@Override
-	public Type build(Scopes scopes) {
-		return new Type(modifiers, name);
+	public TypeReference build(Scopes scopes) {
+		return new TypeReference(modifiers, name);
 	}
 
 }

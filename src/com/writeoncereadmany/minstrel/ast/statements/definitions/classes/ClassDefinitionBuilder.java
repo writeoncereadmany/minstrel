@@ -2,15 +2,12 @@ package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Modifier;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.ast.statements.Statement;
 import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +17,7 @@ import java.util.Map;
 public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
 
     private Name name;
-    private Type classInterface;
+    private TypeReference classInterface;
     private ClassDefinitionBody body;
 
     private Scopes scopes;
@@ -36,12 +33,12 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
         if(name == null)
         {
             name = (Name)node;
-            Type constructorType = new Type(new Name("Constructor for " + name.getName()));
+            TypeReference constructorType = new TypeReference(new Name("Constructor for " + name.getName()));
             scopes.peekAtDepth(1).add(constructorType, name);
         }
         else if (classInterface == null)
         {
-            classInterface = (Type)node;
+            classInterface = (TypeReference)node;
         }
         else
         {

@@ -137,7 +137,7 @@ public class ASTBuildingParseListener extends MinstrelBaseListener {
 	
 	@Override
 	public void enterType(@NotNull TypeContext ctx) {
-		beingBuilt.push(new TypeBuilder());
+		beingBuilt.push(new TypeReferenceBuilder());
 	}
 	
 	@Override

@@ -2,17 +2,14 @@ package com.writeoncereadmany.minstrel.ast.statements.definitions.functions;
 
 import com.writeoncereadmany.minstrel.ast.*;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.*;
-import com.writeoncereadmany.minstrel.ast.statements.definitions.functions.FunctionDefinition;
 import com.writeoncereadmany.minstrel.scope.Scopes;
-
-import java.util.ArrayList;
 
 public class FunctionDefinitionBuilder implements ASTNodeBuilder<FunctionDefinition> {
 
     private final Scopes scopes;
     private Name name;
 	private ParameterList parameterList;
-	private Type returnType;
+	private TypeReference returnType;
 	private Block functionBlock;
 
     public FunctionDefinitionBuilder(Scopes scopes)
@@ -26,7 +23,7 @@ public class FunctionDefinitionBuilder implements ASTNodeBuilder<FunctionDefinit
 		if(null == name)
 		{
 			name = (Name)node;
-            Type functionType = new Type(new Name("Function " + name.getName()));
+            TypeReference functionType = new TypeReference(new Name("Function " + name.getName()));
             scopes.peekAtDepth(1).add(functionType, name);
 		}
 		else if(null == parameterList)
@@ -35,7 +32,7 @@ public class FunctionDefinitionBuilder implements ASTNodeBuilder<FunctionDefinit
 		}
 		else if(null == returnType)
 		{
-			returnType = (Type)node;
+			returnType = (TypeReference)node;
 		}
 		else functionBlock = (Block)node;
 	}

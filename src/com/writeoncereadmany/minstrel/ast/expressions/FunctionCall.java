@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ArgumentList;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
@@ -34,10 +34,10 @@ public class FunctionCall implements Expression {
 	}
 
     @Override
-    public Type getType(Scopes scopes) {
+    public TypeReference getType(Scopes scopes) {
         // eventually, will be:
         // return ((FunctionType)functionReference.getType()).getReturnType();
-        return new Type(new Name("Unknown"));
+        return new TypeReference(new Name("Unknown"));
     }
 
 }

@@ -1,7 +1,7 @@
 package com.writeoncereadmany.minstrel.scope;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.listeners.exceptions.UnrecognisedNameException;
 
 import java.util.Stack;
@@ -44,7 +44,7 @@ public class Scopes {
         return scopes.size() - 1;
     }
 
-    public void add(Type type, Name name)
+    public void add(TypeReference type, Name name)
     {
         scopes.peek().add(type, name);
     }
@@ -80,7 +80,7 @@ public class Scopes {
         return new DeBruijnIndex(depth, position);
     }
 
-    public Type typeOf(String name)
+    public TypeReference typeOf(String name)
     {
         if(!contains(name))
         {
@@ -90,7 +90,7 @@ public class Scopes {
         return peekAtDepth(depth).typeOf(name);
     }
 
-    public Type typeOf(DeBruijnIndex index)
+    public TypeReference typeOf(DeBruijnIndex index)
     {
         return peekAtDepth(index.getDepth()).typeOf(index.getPosition());
     }

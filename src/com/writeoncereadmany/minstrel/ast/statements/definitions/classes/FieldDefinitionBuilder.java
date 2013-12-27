@@ -3,7 +3,7 @@ package com.writeoncereadmany.minstrel.ast.statements.definitions.classes;
 import com.writeoncereadmany.minstrel.ast.ASTNode;
 import com.writeoncereadmany.minstrel.ast.ASTNodeBuilder;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 /**
@@ -11,7 +11,7 @@ import com.writeoncereadmany.minstrel.scope.Scopes;
  */
 public class FieldDefinitionBuilder implements ASTNodeBuilder<FieldDefinition> {
 
-    private Type type;
+    private TypeReference type;
     private Name name;
 
 
@@ -19,7 +19,7 @@ public class FieldDefinitionBuilder implements ASTNodeBuilder<FieldDefinition> {
     public void addNode(ASTNode node) {
         if(null == type)
         {
-            type = (Type) node;
+            type = (TypeReference) node;
         }
         else
         {

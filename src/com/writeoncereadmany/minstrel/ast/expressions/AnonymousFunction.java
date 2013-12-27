@@ -3,7 +3,7 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Block;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ParameterList;
-import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.values.functions.CustomFunction;
@@ -13,10 +13,10 @@ import com.writeoncereadmany.minstrel.scope.Scopes;
 public class AnonymousFunction implements Expression {
 
 	private ParameterList parameterList;
-    private Type returnType;
+    private TypeReference returnType;
     private Block block;
 	
-	public AnonymousFunction(ParameterList parameterList, Type returnType, Block block) {
+	public AnonymousFunction(ParameterList parameterList, TypeReference returnType, Block block) {
 		this.parameterList = parameterList;
         this.returnType = returnType;
         this.block = block;
@@ -28,8 +28,8 @@ public class AnonymousFunction implements Expression {
 	}
 
     @Override
-    public Type getType(Scopes scopes) {
-        return new Type(new Name("Unknown"));
+    public TypeReference getType(Scopes scopes) {
+        return new TypeReference(new Name("Unknown"));
     }
 
 }
