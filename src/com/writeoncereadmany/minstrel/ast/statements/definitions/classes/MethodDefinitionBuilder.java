@@ -29,7 +29,7 @@ public class MethodDefinitionBuilder implements ASTNodeBuilder<MethodDefinition>
         if(null == name)
         {
             name = (Name)node;
-            Type methodType = new Type(new ArrayList<Modifier>(), new Name("Method " + name));
+            Type methodType = new Type(new Name("Method " + name));
             this.scopes.peekAtDepth(1).add(methodType, name);
         }
         else if(null == parameters)

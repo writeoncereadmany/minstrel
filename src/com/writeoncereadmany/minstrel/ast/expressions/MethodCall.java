@@ -2,11 +2,13 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ArgumentList;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
 import com.writeoncereadmany.minstrel.runtime.values.objects.MinstrelObject;
+import com.writeoncereadmany.minstrel.scope.Scopes;
 
 import java.util.List;
 
@@ -33,6 +35,11 @@ public class MethodCall implements Expression {
         List<Value> arguments = argumentList.evaluate(context, environment);
         Environment methodEnvironment = new Environment(arguments);
         return subjectValue.callMethod(name.getName(), context, methodEnvironment);
+    }
+
+    @Override
+    public Type getType(Scopes scopes) {
+        return new Type(new Name("Unknown"));
     }
 
 }

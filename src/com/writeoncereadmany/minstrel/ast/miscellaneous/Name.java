@@ -21,7 +21,8 @@ public class Name implements ASTNode, Comparable<Name> {
         if(this==o) return true;
         if(!(o instanceof Name)) return false;
         Name otherName = (Name)o;
-        return name.equals(otherName.name);
+        boolean areEqual = name.equals(otherName.name);
+        return areEqual;
     }
 
     public int hashCode()
@@ -32,5 +33,10 @@ public class Name implements ASTNode, Comparable<Name> {
     @Override
     public int compareTo(final Name other) {
         return name.compareTo(other.getName());
+    }
+
+    public String toString()
+    {
+        return name;
     }
 }

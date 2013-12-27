@@ -115,7 +115,7 @@ public class FrameworkTest {
 	@Test(expected=NameAlreadyExistsException.class)
 	public void shouldNotSupportRedeclaringVariables()
 	{
-		assertOutput("Number three is 3; Integer three is 5;");
+		assertOutput("Number three is 3; Number three is 5;");
 	}
 	
 	@Test
@@ -166,7 +166,7 @@ public class FrameworkTest {
     @Test(expected=TypeMismatchException.class)
     public void shouldNotAllowAssignmentOfStringToIntegerReference()
     {
-        assertOutput("Number a is \"Hello world!\"");
+        assertOutput("Number a is \"Hello world!\";");
     }
 	
 	@Test

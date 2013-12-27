@@ -3,11 +3,14 @@ package com.writeoncereadmany.minstrel.ast.expressions;
 import java.util.List;
 
 import com.writeoncereadmany.minstrel.ast.miscellaneous.ArgumentList;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
+import com.writeoncereadmany.minstrel.ast.miscellaneous.Type;
 import com.writeoncereadmany.minstrel.runtime.environment.Environment;
 import com.writeoncereadmany.minstrel.runtime.environment.Environments;
 import com.writeoncereadmany.minstrel.runtime.context.ExecutionContext;
 import com.writeoncereadmany.minstrel.runtime.values.functions.Function;
 import com.writeoncereadmany.minstrel.runtime.values.Value;
+import com.writeoncereadmany.minstrel.scope.Scopes;
 
 public class FunctionCall implements Expression {
 	
@@ -29,5 +32,12 @@ public class FunctionCall implements Expression {
 
 		return toExecute.call(context, functionEnvironment);
 	}
+
+    @Override
+    public Type getType(Scopes scopes) {
+        // eventually, will be:
+        // return ((FunctionType)functionReference.getType()).getReturnType();
+        return new Type(new Name("Unknown"));
+    }
 
 }

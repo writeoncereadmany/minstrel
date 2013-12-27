@@ -57,7 +57,7 @@ public class SystemEnvironment {
 
     private static Reference forName(String name)
     {
-        return new Reference(new Type(new ArrayList<Modifier>(), new Name("Don't care")), new Name(name));
+        return new Reference(new Type(new Name("Don't care")), new Name(name));
     }
 
 }

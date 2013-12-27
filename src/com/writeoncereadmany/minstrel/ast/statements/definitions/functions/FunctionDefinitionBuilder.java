@@ -26,7 +26,7 @@ public class FunctionDefinitionBuilder implements ASTNodeBuilder<FunctionDefinit
 		if(null == name)
 		{
 			name = (Name)node;
-            Type functionType = new Type(new ArrayList<Modifier>(), new Name("Function " + name.getName()));
+            Type functionType = new Type(new Name("Function " + name.getName()));
             scopes.peekAtDepth(1).add(functionType, name);
 		}
 		else if(null == parameterList)

@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class ScopeTest {
 
-    private final static Type TYPE = new Type(new ArrayList<Modifier>(), new Name("Type"));
+    private final static Type TYPE = new Type(new Name("Type"));
 
     @Test
     public void noNamesInEmptyScope()

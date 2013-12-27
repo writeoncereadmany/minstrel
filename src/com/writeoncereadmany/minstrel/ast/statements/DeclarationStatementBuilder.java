@@ -8,6 +8,7 @@ import com.writeoncereadmany.minstrel.ast.expressions.Expression;
 import com.writeoncereadmany.minstrel.listeners.exceptions.IllegalOverrideException;
 import com.writeoncereadmany.minstrel.listeners.exceptions.IllegalReassignmentException;
 import com.writeoncereadmany.minstrel.listeners.exceptions.MinstrelParseException;
+import com.writeoncereadmany.minstrel.listeners.exceptions.TypeMismatchException;
 import com.writeoncereadmany.minstrel.scope.Scopes;
 
 public class DeclarationStatementBuilder implements ASTNodeBuilder<DeclarationStatement> {
@@ -37,6 +38,11 @@ public class DeclarationStatementBuilder implements ASTNodeBuilder<DeclarationSt
         if(scopes.contains(name.getName()) && scopes.getDepth(name.getName()) == -1)
         {
             throw new IllegalOverrideException("Cannot override names in the system scope");
+        }
+        final Type assignant = value.getType(scopes);
+        if(!type.allowsAssignmentOf(assignant))
+        {
+            throw new TypeMismatchException("Cannot assign " + assignant.getName() + " to " + type.getName());
         }
         scopes.add(type, name);
 		return new DeclarationStatement(type, name, value);

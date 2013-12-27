@@ -90,6 +90,11 @@ public class Scopes {
         return peekAtDepth(depth).typeOf(name);
     }
 
+    public Type typeOf(DeBruijnIndex index)
+    {
+        return peekAtDepth(index.getDepth()).typeOf(index.getPosition());
+    }
+
     public boolean isEmpty() {
         return scopes.isEmpty();
     }

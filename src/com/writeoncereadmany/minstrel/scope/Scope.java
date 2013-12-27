@@ -42,6 +42,10 @@ public class Scope {
 
     public Type typeOf(String name)
     {
-        return references.get(indexOf(name)).getType();
+        return typeOf(indexOf(name));
+    }
+
+    public Type typeOf(int position) {
+        return references.get(position).getType();
     }
 }

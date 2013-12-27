@@ -36,7 +36,7 @@ public class ClassDefinitionBuilder implements ASTNodeBuilder<ClassDefinition> {
         if(name == null)
         {
             name = (Name)node;
-            Type constructorType = new Type(new ArrayList<Modifier>(), new Name("Constructor for " + name.getName()));
+            Type constructorType = new Type(new Name("Constructor for " + name.getName()));
             scopes.peekAtDepth(1).add(constructorType, name);
         }
         else if (classInterface == null)
