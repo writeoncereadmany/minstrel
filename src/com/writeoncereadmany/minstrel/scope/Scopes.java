@@ -6,9 +6,6 @@ import com.writeoncereadmany.minstrel.listeners.exceptions.UnrecognisedNameExcep
 
 import java.util.Stack;
 
-/**
- * Created by tom on 10/11/2013.
- */
 public class Scopes {
 
     public static final int NOT_PRESENT = Integer.MIN_VALUE;

@@ -3,9 +3,6 @@ package com.writeoncereadmany.minstrel.scope;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.Name;
 import com.writeoncereadmany.minstrel.ast.miscellaneous.TypeReference;
 
-/**
- * Created by tom on 26/12/2013.
- */
 public class Reference implements Comparable<Reference> {
 
     private final TypeReference type;
